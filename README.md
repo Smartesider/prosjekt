@@ -12,7 +12,7 @@
 
 | Parameter             | Verdi                                    | Kommentar / LOCK                                                            |
 | --------------------- | ---------------------------------------- | --------------------------------------------------------------------------- |
-| Backend-port          | 8097                                     | # LOCK: Kun port 8097 for API trafikk. Ingen andre porter for backend.      |
+| Backend-port          | 8093                                  | # LOCK: Kun port 8097 for API trafikk. Ingen andre porter for backend.      |
 | Server-root katalog   | `/home/skycode.no/public_html/prosjekt/` | # LOCK: Alle filoperasjoner må begrenses hit og underkataloger.             |
 | Webadresse            | `https://prosjekt.skycode.no/`           | # LOCK: Kun dette domenet tillatt som origin i CORS-policy.                 |
 | Frontend API-base-url | `https://prosjekt.skycode.no/api/v1/`    | # LOCK: Frontend må kun kalle API her. Ingen hardkodede IP-er eller porter. |
