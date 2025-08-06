@@ -12,17 +12,17 @@
 
 | Parameter             | Verdi                                    | Kommentar / LOCK                                                            |
 | --------------------- | ---------------------------------------- | --------------------------------------------------------------------------- |
-| Backend-port          | 8000                                  | # LOCK: Kun port 8097 for API trafikk. Ingen andre porter for backend.      |
-| Server-root katalog   | `/home/skycode.no/public_html/prosjekt/` | # LOCK: Alle filoperasjoner må begrenses hit og underkataloger.             |
-| Webadresse            | `https://prosjekt.skycode.no/`           | # LOCK: Kun dette domenet tillatt som origin i CORS-policy.                 |
-| Frontend API-base-url | `https://prosjekt.skycode.no/api/v1/`    | # LOCK: Frontend må kun kalle API her. Ingen hardkodede IP-er eller porter. |
+| Backend-port          | 8000                                  | # LOCK: Kun port 8000 for API trafikk. Ingen andre porter for backend.      |
+| Server-root katalog   | `/home/skyprosjekt.no/public_html/` | # LOCK: Alle filoperasjoner må begrenses hit og underkataloger.             |
+| Webadresse            | `https://skyprosjekt.no/`           | # LOCK: Kun dette domenet tillatt som origin i CORS-policy.                 |
+| Frontend API-base-url | `https://skyprosjekt.no/api/v1/`    | # LOCK: Frontend må kun kalle API her. Ingen hardkodede IP-er eller porter. |
 
 ---
 
 ## 3. KATALOGSTRUKTUR
 
 ```
-/home/skycode.no/public_html/prosjekt/
+/home/skyprosjekt.no/public_html/
 ├── index.html               # Landingsside, WOW-faktor, login (v2 fullført)
 ├── bruker/
 │   └── index.html           # Ansattportal, placeholder i v2
@@ -56,7 +56,7 @@
 
 * **Alle API-endepunkter skal være under `/api/v1/`**
 * **Kun port 8000 er tillatt for API**
-* **Streng CORS-policy:** tillat kun `https://prosjekt.skycode.no`
+* **Streng CORS-policy:** tillat kun `https://skyprosjekt.no`
 * **Alle API-responser må være JSON med Content-Type: application/json**
 * **Inputvalidering er obligatorisk på alle endepunkter**
 * **Ugyldige kall skal returnere HTTP 400 med strukturert JSON-feilmelding**
@@ -216,10 +216,10 @@
 
 ## 8. SIKKERHETSREGLER (Ufravikelige låser)
 
-* Backend skal **kun** lytte på port 8097 (# LOCK)
-* All API-trafikk må gå via `https://prosjekt.skycode.no/api/v1` (# LOCK)
+* Backend skal **kun** lytte på port 8000 (# LOCK)
+* All API-trafikk må gå via `https://skyprosjekt.no/api/v1` (# LOCK)
 * CORS-policy: Kun `https://prosjekt.skycode.no` tillatt (# LOCK)
-* Alle filoperasjoner må begrenses til `/home/skycode.no/public_html/prosjekt/` og underkataloger (# LOCK)
+* Alle filoperasjoner må begrenses til `/home/skyprosjekt.no/public_html/` og underkataloger (# LOCK)
 * JWT med roller kreves for alle endepunkter (# LOCK)
 * Streng inputvalidering med avvisning av uventede data (# LOCK)
 * All destruktiv operasjon må ta backup før endring (# LOCK)
@@ -232,7 +232,7 @@
 ## 9. FRONTEND-KRAV
 
 * Kun statiske HTML/JS-filer
-* Alle API-kall skal bruke `fetch` eller `axios` til `/api/v1` på port 8097
+* Alle API-kall skal bruke `fetch` eller `axios` til `/api/v1` på port 8000
 * Token lagres kun i `httpOnly` cookie eller `sessionStorage`
 * Validering av token og roller i frontend før visning av sensitive sider
 * Responsivt, mobilvennlig, høy UX-standard
@@ -244,7 +244,7 @@
 
 ## 10. BACKUP OG ROLLBACK
 
-* Backup lagres som tidsstemplet filer i `/home/skycode.no/public_html/prosjekt/backups/`
+* Backup lagres som tidsstemplet filer i `/home/skyprosjekt.no/backups/`
 * Maks 5 versjoner per fil/tabell
 * Rollback kan trigges automatisk eller manuelt
 * Alle endringer i kritiske filer/database logges med bruker, tidspunkt og operasjonstype
