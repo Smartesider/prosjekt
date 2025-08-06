@@ -12,7 +12,7 @@
 
 | Parameter             | Verdi                                    | Kommentar / LOCK                                                            |
 | --------------------- | ---------------------------------------- | --------------------------------------------------------------------------- |
-| Backend-port          | 8093                                  | # LOCK: Kun port 8097 for API trafikk. Ingen andre porter for backend.      |
+| Backend-port          | 8000                                  | # LOCK: Kun port 8097 for API trafikk. Ingen andre porter for backend.      |
 | Server-root katalog   | `/home/skycode.no/public_html/prosjekt/` | # LOCK: Alle filoperasjoner må begrenses hit og underkataloger.             |
 | Webadresse            | `https://prosjekt.skycode.no/`           | # LOCK: Kun dette domenet tillatt som origin i CORS-policy.                 |
 | Frontend API-base-url | `https://prosjekt.skycode.no/api/v1/`    | # LOCK: Frontend må kun kalle API her. Ingen hardkodede IP-er eller porter. |
@@ -55,7 +55,7 @@
 ### 5.1 Generelle krav
 
 * **Alle API-endepunkter skal være under `/api/v1/`**
-* **Kun port 8097 er tillatt for API**
+* **Kun port 8000 er tillatt for API**
 * **Streng CORS-policy:** tillat kun `https://prosjekt.skycode.no`
 * **Alle API-responser må være JSON med Content-Type: application/json**
 * **Inputvalidering er obligatorisk på alle endepunkter**
@@ -261,29 +261,7 @@
 
 ---
 
-## 12. NGINX KONFIGURASJON (kort eksempel)
 
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name prosjekt.skycode.no;
-
-    ssl_certificate /etc/letsencrypt/live/prosjekt.skycode.no/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/prosjekt.skycode.no/privkey.pem;
-
-    location /api/v1/ {
-        proxy_pass http://127.0.0.1:8097/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location / {
-        root /home/skycode.no/public_html/prosjekt/;
-        try_files $uri $uri/ =404;
-    }
-}
 ```
 
 ---
